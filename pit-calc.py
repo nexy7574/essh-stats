@@ -33,12 +33,16 @@ longest_time = 0.0
 shortest_time = float("inf")
 avg = []
 connected = 0
-
+opened = False
 
 for n, line in enumerate(logdata):
+    # TODO: Match open/closes with a regex and track connected IPs
     if "ACCEPT" in line:
+        opened = True
         connected += 1
     if "CLOSE" in line:
+        if not opened:
+            print("No opening ACCEPT was detected. Incomplete logs?")
         connected -= 1
     if not regex.search(line):
 
